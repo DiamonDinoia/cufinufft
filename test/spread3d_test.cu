@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
 	int N1, N2, N3, M;
 	if (argc<6) {
 		fprintf(stderr,
-			"Usage: spread3d method nupts_distr nf1 nf2 nf3 [maxsubprobsize [M [tol [kerevalmeth [sort]]]]]\n"
+			"Usage: spread3d_test method nupts_distr nf1 nf2 nf3 [maxsubprobsize [M [tol [kerevalmeth [sort]]]]]\n"
 			"Arguments:\n"
 			"  method: One of\n"
 			"    1: nupts driven,\n"
@@ -189,7 +189,7 @@ int main(int argc, char* argv[])
 	for(int k=0; k<nf3; k++){
 		for(int j=0; j<nf2; j++){
 			for (int i=0; i<nf1; i++){
-				if( i % dplan.opts.gpu_binsizex == 0 && i!=0)
+				if( i % dplan->opts.gpu_binsizex == 0 && i!=0)
 					printf(" |");
 				printf(" (%2.3g,%2.3g)",fw[i+j*nf1+k*nf2*nf1].real(),
 					fw[i+j*nf1+k*nf2*nf1].imag() );

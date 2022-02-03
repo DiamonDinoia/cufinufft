@@ -6,11 +6,22 @@
 #define PRECISION_INDEPENDENT_H
 
 /* Common Kernels from spreadinterp3d */
-__device__
+__host__ __device__
 int CalcGlobalIdx(int xidx, int yidx, int zidx, int onx, int ony, int onz,
                   int bnx, int bny, int bnz);
 __device__
 int CalcGlobalIdx_V2(int xidx, int yidx, int zidx, int nbinx, int nbiny, int nbinz);
+
+/* spreadinterp 1d */
+__global__
+void CalcSubProb_1d(int* bin_size, int* num_subprob, int maxsubprobsize, int numbins);
+
+__global__
+void MapBintoSubProb_1d(int* d_subprob_to_bin, int* d_subprobstartpts,
+	int* d_numsubprob,int numbins);
+
+__global__
+void TrivialGlobalSortIdx_1d(int M, int* index);
 
 /* spreadinterp 2d */
 __global__

@@ -2,7 +2,7 @@
 
 <img align="right" src="docs/logo.png" width="350">
 
-cuFINUFFT is a very efficient GPU implementation of the 2- and 3-dimensional nonuniform FFT of types 1 and 2, in single and double precision, based on the CPU code [FINUFFT][1].
+cuFINUFFT is a very efficient GPU implementation of the 1-, 2-, and 3-dimensional nonuniform FFT of types 1 and 2, in single and double precision, based on the CPU code [FINUFFT][1].
 
 Note that the Python interface has changed relative to v1.1. Please see [CHANGELOG](CHANGELOG) for details.
 
@@ -29,7 +29,7 @@ This project came out of Melody's 2018 and 2019 summer internships at the Flatir
 ## Installation
 
 Note for most Python users, you may skip to the [Python Package](#Python-Package) section first,
-and consider installing from source if that solution is not adequate for your needs. Here's the C++ install process:
+and consider installing from source if that solution is not adequate for your needs. Note that 1D is not available in Python yet. Here's the C++ install process:
 
  - Make sure you have the prerequisites: a C++ compiler (eg `g++`) and a recent CUDA installation (`nvcc`).
  - Get the code: `git clone https://github.com/flatironinstitute/cufinufft.git`
@@ -143,12 +143,13 @@ make site=olcf_summit
 The currently supported targets and sites are:
 1. Sites
     1. NERSC Cori (`site=nersc_cori`)
-    2. NERSC Cori GPU (`site=nersc_cgpu`)
-    3. OLCF Summit (`site=olcf_summit`) -- automatically sets `target=power9`
-    4. CIMS (`target=CIMS`)
-2. Targets
+    1. NERSC Cori GPU (`site=nersc_cgpu`)
+    1. OLCF Summit (`site=olcf_summit`) -- automatically sets `target=power9`
+    1. CIMS (`site=CIMS`)
+    1. Flatiron Institute, rusty cluster GPU node (`site=FI`)
+1. Targets
     1. Default (`x86_64`) -- do not specify `target` variable
-    2. IBM `power9` (`target=power9`)
+    1. IBM `power9` (`target=power9`)
 
 A general note about expanding the platform support: _targets_ should contain
 settings that are specific to a compiler/hardware architecture, whereas _sites_
@@ -165,22 +166,24 @@ environment. The `site`-specific script is loaded __before__ the
  
 ### Other notes
  - If you are interested in optimizing for GPU Compute Capability,
- you may want to specicfy ```NVARCH=-arch=sm_XX``` in your make.inc to reduce compile times,
+ you may want to specify ```NVARCH=-arch=sm_XX``` in your make.inc to reduce compile times,
  or for other performance reasons. See [Matching SM Architectures][2].
 
 ## Tasks for developers
 
-- We could use some help to implement 1D versions, and type 3 transforms (which are quite tricky), as in [FINUFFT][1]
+- 1D version is close to finished (needs vectorized testers and Py interfaces)
+- Type 3 transforms (which are quite tricky) as in [FINUFFT][1] are in progress (at least in 3D) on a PR, thanks to Simon Frasch; please go and test!
 - We need some more tutorial examples in C++ and Python
 - Please help us to write MATLAB (gpuArray) and Julia interfaces
-- Please see Issues for other things you can help fix
+- There are various Tensorflow and related interfaces in progress (please help with them or test them): https://github.com/mrphys/tensorflow-nufft  https://github.com/dfm/jax-finufft
+- Please see Issues and PRs for other things you can help fix or test
 
 
 ## References
 
 * cuFINUFFT: a load-balanced GPU library for general-purpose nonuniform FFTs,
 Yu-hsuan Shih, Garrett Wright, Joakim Andén, Johannes Blaschke, Alex H. Barnett,
-*accepted*, PDSEC2021. https://arxiv.org/abs/2102.08463
+PDSEC2021 conference (*best paper prize*). https://arxiv.org/abs/2102.08463
 
 
 [1]: https://github.com/flatironinstitute/finufft
